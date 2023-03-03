@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Airways Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" >  
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />  
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>  
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>  
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
+<script src="https://code.angularjs.org/1.3.0/angular.js"></script> 
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+<style>
+
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+    width: 100%;
+}
+
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #DDD;
+}
+
+tr:hover {background-color: #D6EEEE;}
+
+
+.air{
+    font-family: "Allerta Stencil", Sans-serif;
+	
+}
+
+
+ .nav-tabs>li>a {
+  
+        line-height: 1.42857143;
+        border: 1px solid #605b8d1f;
+        border-radius: 4px 4px 0 0;
+        background-color:#87CEFA;
+        color: #222e2b;
+		font-family: fangsong;
+        
+}
+.dataTables_filter {
+   width: 50%;
+   float: right;
+   text-align: right;
+}
+@media screen and (max-width: 900px) and (min-width: 600px), (min-width: 1100px) {
+  div.example {
+    font-size: 50px;
+    padding: 50px;
+    border: 8px solid black;
+    background: yellow;
+  }
+}
+</style>
+</head>
+<body>
+<div
+  class="bg-image"
+  style="
+  
+   background-image: url('https://i.pinimg.com/originals/d6/d1/e0/d6d1e0bbdd2eda8f44a2125154670e82.gif');
+	  background-repeat: no-repeat;
+;
+     background-size: auto;
+     background-size: 100% 100%;
+    height: 100vh;
+  "
+>
+<div class="container">
+<center><h1 class="air " style="text-shadow:1px 1px 0 #444"> AIRWAYS</h1><div class="text-bg-dark p-3"></center>
+   <div class="bg-dark p-3">
+  <ul class="nav nav-tabs">
+    <li  class="list active" ><a data-toggle="tab"  href="#home" >
+	<span class="icon"><ion-icon name="home-outline"></ion-icon>Home</span></a>
+	</li>
+    <li class="list"><a data-toggle="tab" href="#Deatils">
+	<span class="icon"><ion-icon name="airplane-outline"></ion-icon>FlightDetails</span></a>
+	</li>
+    <li class="list"><a data-toggle="tab" href="#disposal">
+	<span class="icon"><ion-icon name="bookmark-outline"></ion-icon>call disposal</span></a>
+	</li>
+    <li class="list"><a data-toggle="tab" href="#history">
+	<span class="icon"><ion-icon name="call-outline"></ion-icon>call history </span></a>
+	</li>
+	<div class="indicator"></div>
+  </ul>
+  </div>
+<div ng-app="myApp" ng-controller="myCtrl as user"> 
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h3 class="wel">Welcome Come To Widget Airways</h3>
+    </div>
+	
+     
+    	 <div id="Deatils" class="tab-pane fade ">
+		 <div class="col-xs-3">
+            	<form name="userForm"  role="form" novalidate class="clearfix">
+				
+		        <div class="form-group clearfix"  ng-class="{ 'has-error': userForm.date.$touched && userForm.date.$invalid }">
+					 <h3 class="text-dark" for="date"> Date: </h3>
+                        <input type="text" class="form-control" name="date" 
+                        ng-model="user.date " 
+                        ng-pattern= "/(\d{4})-(\d{2})-(\d{2})/"
+                        placeholder="Date" 
+                        required/>
+						<span  class="text-danger"ng-show="userForm.date.$error.required">Gate Open Date is required</span>
+		            		<span class="text-danger" ng-show="userForm.date.$error.pattern">Date Format Must Be DD/MM/YYYY</span>
+                        
+                    </div>
+                    <div class="form-group clearfix" ng-class="{ 'has-error': userForm.leave_from.$touched && userForm.leave_from.$invalid }">
+					  <h3 class="text-dark" for="leaving_from"> Leave From: </h3>
+                        <input type="text" name="leave_from" class="form-control" 
+                        ng-model="user.leave_from"
+                        ng-minlength="5"
+                        ng-maxlength="40"
+						ng-pattern="/^[a-zA-Z\-]+$/"
+                        placeholder="Leave From"
+                        required />
+						<span  class="text-danger" ng-show="userForm.leave_from.$error.required">The filed is required</span>
+		            		<span  class="text-danger" ng-show="userForm.leave_from.$error.pattern">This field contain only charcter</span>
+                       
+                    </div>
+					    <div class="form-group clearfix" ng-class="{ 'has-error': userForm.going_to.$touched && userForm.going_to.$invalid }">
+						 <h3 class="text-dark" for="going_to"> Going To: </h3>
+                        <input type="text" name="going_to" class="form-control" 
+                        ng-model="user.going_to"
+                        ng-minlength="5"
+                        ng-maxlength="40"
+						ng-pattern="/^[a-zA-Z\-]+$/"
+                        placeholder=" Going To"
+                        required />
+						<span class="text-danger" ng-show="userForm.going_to.$error.required">The filed is required</span>
+		            		<span class="text-danger" ng-show="userForm.going_to.$error.pattern">This field contain only charcter</span>
+                       
+                    </div>
+						    
+		<button  id="save" ng-click="getFormuser(user)"  style="border-radius: 10px;" 
+		class="btn btn-primary" type="submit"  ng-disabled="userForm.$invalid || user.dataLoading">search</button>
+ 
+		  </form>
+		  </div>
+		  		  	
+		  
+	<div class="container">
+        <div class="row">
+
+    <div class="menu col-xs-9" align="right">
+        
+		<h4 class="pb-4 px-4 text-white" align="left" ng-show="pre"> Flights Details:</h4>
+		
+	<table class="table table-bordered table-sm mx-3    border="1" ng-show="pre">
+	
+    <thead class="table-white">
+	<tr>
+	<th  style="width:150px">flight_no</th>
+	<th  style="width:150px">flight_name</th>
+    <th style="width:150px">date</th>
+    <th style="width:150px">Leave From</th>
+    <th style="width:150px">Going To</th>
+	<th style="width:150px">economy</th>
+	<th style="width:150px">payment_types</th>
+	<th style="width:150px">start_time</th>
+	<th style="width:150px">arrived_time</th>
+	
+    </tr>
+	  </thead>
+	   <tbody>
+    <tr  ng-repeat="tuser in myWelcome">
+	<td>{{ tuser.flight_no }}</td>
+	<td>{{ tuser.flight_name }}</td>
+    <td>{{ tuser.date }}</td>
+    <td>{{ tuser.leave_from }}</td>
+    <td>{{ tuser.going_to }}</td>
+	<td>{{ tuser.economy }}</td>
+	<td>{{ tuser.payment_types }}</td>
+	<td>{{ tuser.start_time }}</td>
+	<td>{{ tuser.arrived_time }}</td>
+    </tr>
+	</tbody>
+    </table>
+	</div>
+	</div>
+	</div>
+	</div>
+		
+
+	<div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <h4 class="modal-title" id="myModalLabel"> Failure </h4>
+       </div>
+       <div class="modal-body" id="getCode">
+       </div>
+    </div>
+   </div>
+ </div>
+	<div id="disposal" class="tab-pane fade col-xs-3">
+	<form name="userForms"  role="form" novalidate class="clearfix">
+ <h3 class="text-dark"> phoneNumber: </h3>
+                   <div class="form-group clearfix" ng-class="{ 'has-error': userForms.ph_no.$touched && userForms.ph_no.$invalid }">
+                        <input type="tel" name="ph_no" class="form-control" 
+                        ng-model="call.ph_no" 
+                        ng-minlength="10"
+                        ng-maxlength="11"
+                        placeholder="Phone No."
+                        ng-pattern="/^[0-9]{10,10}$/"
+                        required />
+						<span class="text-danger" ng-show="userForms.ph_no.$error.required">The filed is required</span>
+		            		<span class="text-danger" ng-show="userForms.ph_no.$error.pattern">This field contain only numbers</span>
+                        
+						
+                    </div>
+   
+   <h3 class=" text-dark ">Call Disposal:</h3>
+  <select  ng-change="dis()" ng-model="call.disposal" class="form-control">
+                             <option value>choose...</option>
+					         <option id="che" class="dropdown-item"  value="check">check</option>
+                            <option id="busy" class="dropdown-item" value="busy">busy</option>
+                            <option id="ava" class="dropdown-item"  value="available">available</option>
+                           
+                        </select><br/>
+  <h3 class="pe-5 me-1 mb-3 text-dark " ng-show="reas">Reason:</h3>
+<select   ng-show="check" ng-model="call.reason" class="form-control">
+  <option value>choose...</option>
+  <option value="issuse">issuse</option>
+  <option value="problem">problem</option>
+  <option value="network">network</option>
+</select>
+ <select  ng-show="unavail" ng-model="call.reason" class="form-control"> 
+   <option value>choose...</option> 
+  <option value="checking">checking</option>
+ <option value="busy">busy</option>
+ <option value="unavailable">unavailable</option>	
+</select> 
+ <select ng-show="avail" ng-model="call.reason"  class="form-control"> 
+ <option value>choose...</option>
+ <option id=book value="booking">booking</option>
+ <option id=res value="Reservation">Reservation</option>
+ <option id=cancel value="cancel">cancel</option>
+</select>				
+<h3 class="text-dark"> call_start_time:</h3>
+  <div class="form-group clearfix" ng-class="{ 'has-error': userForms.call_start_time.$touched && userForms.call_start_time.$invalid }">
+                        <input type="text" name="call_start_time" class="form-control" 
+                        ng-model="call.call_start_time" 
+                        placeholder="HH:MM:SS"
+                        ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/"
+                        required />
+						<span class="text-danger" ng-show="userForms.call_start_time.$error.required">The filed is required</span>
+		            		<span class="text-danger" ng-show="userForms.call_start_time.$error.pattern">This field contain only HH:MM:SS</span>
+                       
+						
+                    </div>
+<h3 class="text-dark"> call_end_time:</h3>
+ <div class="form-group clearfix" ng-class="{ 'has-error': userForms.call_end_time.$touched && userForms.call_end_time.$invalid }">
+                        <input type="text" name="call_end_time" class="form-control" 
+                        ng-model="call.call_end_time" 
+                        placeholder="HH:MM:SS"
+                        ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/"
+                        required />
+						<span class="text-danger" ng-show="userForms.call_end_time.$error.required">The filed is required</span>
+		            		<span class="text-danger" ng-show="userForms.call_end_time.$error.pattern">This field contain only HH:MM:SS </span>
+                        
+						</div>
+<button id="save" ng-click="myfunction(call)"style="border-radius: 10px;" 
+class="btn btn-primary" 
+ ng-disabled="userForms.$invalid" >save</button>
+</form>
+</div>
+<div id="CallDisposalModal" class="modal fade p-3 mb-2 bg-info text-dark" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h4 class="modal-title" class="text-center ">CallDisposal And Reason Status</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div id="CallDisposalResponseModal"></div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+ <div id="history" class="tab-pane fade ">
+ <form name="user"  role="form" novalidate class="clearfix">
+<h3 class="text-dark"> phoneNumber: </h3>
+<div class="form-group clearfix col-xs-3" ng-class="{ 'has-error': user.ph_no.$touched && user.ph_no.$invalid }">
+                        <input type="tel" name="ph_no" class="form-control" 
+                        ng-model="call.ph_no" 
+                        ng-minlength="10"
+                        ng-maxlength="11"
+                        placeholder="Phone No."
+                        ng-pattern="/^[0-9]{10,10}$/"
+                        required />
+						<span class="text-danger" ng-show="user.ph_no.$error.required">The filed is required</span>
+		            		<span class="text-danger" ng-show="user.ph_no.$error.pattern">This field contain only numbers</span>
+                       
+                    </div>
+<button id="save"  name="save" ng-click="myfunction1(call)" style="border-radius: 10px;" class="btn btn-primary"  ng-disabled="user.$invalid" >callhistory</button>
+ </form>
+ 
+ 
+ <h4 class="pb-4 px-4 text-white" id="his" ng-show="history" >call history: </h4>
+ 
+
+    <div style="overflow-X:auto; height: 210px; ">
+	<table id="user_table"   class="table table-striped table-bordered table-sm" cellspacing="0"
+ ng-show="history"  >
+    <thead class="table-white">
+	<tr>
+    <th style="width:150px">dis_id</th>
+	<th style="width:150px">caller_id</th>
+	<th style="width:150px">ph_no</th>
+	<th style="width:150px">call_start_time</th>
+	<th style="width:150px">call_end_time</th>
+    <th style="width:150px">disposal</th>
+    <th style="width:150px">reason</th>
+    </tr>
+	</thead>
+	<tbody id="category_showData" class="scroll">
+    <tr  ng-repeat="tuser in myWelcome2">
+	  <td>{{ tuser.dis_id }}</td>
+	 <td>{{ tuser.caller_id }}</td>
+	 <td>{{ tuser.ph_no }}</td>
+	 <td>{{ tuser.call_start_time }}</td>
+	 <td>{{ tuser.call_end_time }}</td>
+    <td>{{ tuser.disposal }}</td>
+    <td>{{ tuser.reason }}</td>
+    </tr>
+	</tbody>
+    </table>
+	</div>
+	</div>
+	<div class="modal fade" id="getCodeModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <h4 class="modal-title" id="myModalLabel"> Failure </h4>
+       </div>
+       <div class="modal-body" id="getCode1">
+ 
+       </div>
+    </div>
+   </div>
+ </div>
+	</div>
+  </div>
+  </div>
+  <script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+		$scope.dis=function(){
+		switch($scope.call.disposal) {
+        case 'check':
+		     $scope.reas=true;
+		     $scope.check=true;
+             $scope.unavail=false; 
+			 $scope.avail=false;
+            break;
+        case 'busy':
+		     $scope.reas=true;
+		     $scope.check=false;
+		     $scope.unavail=true;
+			 $scope.avail=false;
+            break;
+        case 'available':
+		   $scope.reas=true;
+		   $scope.check=false;
+           $scope.avail=true;
+		   $scope.unavail=false; 
+            break;
+    }
+		}
+		    
+
+$scope.getFormuser = function (data) {
+       
+		
+		$scope.isDisabled = false;
+        $scope.someFunc = function(){
+        $scope.isDisabled = true;
+        return false;
+    };
+         var servicedata1 = {
+            "serviceName": "GetFlightCheckDetails",
+            "requestData": "{\"date\":\"" + data.date + "\",\"leave_from\":\"" + data.leave_from + "\",\"going_to\":\"" + data.going_to + "\"}"
+          }
+		  
+  $http({
+    method : "POST",
+    url : "http://192.168.1.128:8080/CustomWidgetMiddleware/customWidgetPostRequest",
+    dataType: 'json',
+    data:JSON.stringify(servicedata1),
+  }).then(function mySuccess(response) {  
+    $scope.mym=response.data.result; 
+	  if($scope.mym==undefined){
+	  jQuery.noConflict();
+	  $("#getCodeModal").modal("toggle");
+      $("#getCode").html("Data Not Found");
+	     /*$scope.myWelcome='failure';*/
+		$scope.pre = false;
+	  }
+	  else{
+       /*$('#myModal').modal('hide');*/
+	   $scope.myWelcome = response.data.result;
+	    $scope.pre = true;
+	  
+	  }
+    }, function myError(response) {
+      $scope.myWelcome = response.statusText;
+  });
+  };
+
+$scope.myfunction = function (data) {
+          //$scope.jdata2 = JSON.stringify(data);
+		  $scope.valid = false;
+    	   $scope.submit = function(){
+    	   $scope.valid = true;
+    	}
+    	$scope.close = function(){
+    		$scope.valid = false;
+    	}
+		  
+         var servicedata2 = {
+            "serviceName": "GetDisposalHistoryShow",
+            "requestData": "{\"ph_no\":\"" + data.ph_no + "\",\"disposal\":\"" + data.disposal + "\",\"reason\":\"" + data.reason + "\",\"call_start_time\":\"" + data.call_start_time + "\",\"call_end_time\":\"" + data.call_end_time + "\"}"
+          }
+  $http({
+    method : "POST",
+    url : "http://192.168.1.128:8080/CustomWidgetMiddleware/customWidgetPostRequest",
+    dataType: 'json',
+    data:JSON.stringify(servicedata2),
+  }).then(function mySuccess(response) {
+    
+	  if(response.data.status == "Success"){
+	   
+	   jQuery.noConflict();
+	  $("#CallDisposalModal").modal('show');
+      $("#CallDisposalResponseModal").html(response.data.status);	  
+ 
+	     /*$scope.myWelcome='failure';*/
+		 }else{
+		 jQuery.noConflict();
+	  $("#CallDisposalModal").modal('show');
+      $("#CallDisposalResponseModal").html("failed");	
+	  }
+    }, function myError(response) {
+	 jQuery.noConflict();
+        $("#CallDisposalModal").modal('show');
+        $("#CallDisposalResponseModal").html("data");
+  });
+  };
+  $scope.myfunction1 = function (data) {       
+          //$scope.jdata2 = JSON.stringify(data);
+         var servicedata3 = {
+            "serviceName": "GetDisposalDetailsShowDetails",
+            "requestData": "{\"ph_no\":\"" + data.ph_no + "\"}"
+          }
+$http({
+    method : "POST",
+    url : "http://192.168.1.128:8080/CustomWidgetMiddleware/customWidgetPostRequest",
+    dataType: 'json',
+    data:JSON.stringify(servicedata3),
+  }).then(function mySuccess(response) {
+  $scope.mym2=response.data.result; 
+	  if($scope.mym2==undefined){
+	  jQuery.noConflict();
+	  $("#getCodeModal1").modal("toggle");
+      $("#getCode1").html("Data Not Found");
+	     /*$scope.myWelcome='failure';*/
+		 $scope.history  = false;
+	  }
+	  else{
+       /*$('#myModal').modal('hide');*/
+	  $scope.myWelcome2 = response.data.result;
+	   $scope.history = true;
+	  angular.element(document).ready(function() {  
+       dTable = $('#user_table').DataTable({
+	    paging: true,
+        searching: true,
+        info: false,
+		
+        "scrollCollapse": true,
+	    pageLength: 5,
+        lengthMenu: [[3,5, 10, 20, -1], [3,5, 10, 20, "all"]]   
+  }); 
+		});
+	  }  
+    }, 
+function myError(response) {
+      $scope.myWelcome2 = response.statusText;
+  });
+  };
+});
+</script>
+<style>
+button {
+  animation: wiggle 2s linear infinite;
+}
+
+/* Keyframes */
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
+}
+
+body {
+  background: #000;
+}
+
+.save {
+  background: #444;
+  background: linear-gradient(top, #555, #333);
+  border: none;
+ 
+  border-radius: 0 0 0.2em 0.2em;
+  color: #fff;
+  font-family: Helvetica, Arial, Sans-serif;
+  font-size: 1em;
+  transform-origin: 50% 5em;
+}
+
+.bg-dark p-3{
+
+width: 100%;
+text-align: center;
+color: #333;
+font-weight: 500;
+ }
+.bg-dark p-3 ul li a .icon
+{
+position: relative;
+display: block; line-height: 75px;
+text-align: center;
+ }
+ .bg-dark p-3 ul li a .icon i
+
+{
+font-size: 24px;
+}
+.bg-dark p-3 ul li a .title{
+position: absolute;
+top: 50%;
+left: 110px;
+background: #fff;
+ transform: translateY(-50%);
+padding: 5px 10px;
+ border-radius: 6px;
+}
+
+}
+</style>
+</body>
+</html>
+
+
+   
